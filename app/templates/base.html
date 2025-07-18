@@ -1,0 +1,22 @@
+<!-- app/templates/base.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>E-Commerce</title>
+</head>
+<body>
+    <nav>
+        <a href="{{ url_for('auth.register') }}">Register</a>
+        <a href="{{ url_for('auth.login') }}">Login</a>
+    </nav>
+    <hr>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+</body>
+</html>

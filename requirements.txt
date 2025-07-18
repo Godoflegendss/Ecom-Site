@@ -1,0 +1,7 @@
+Flask
+Flask-Login
+Flask-WTF
+Flask-Mail
+email-validator
+Flask-SQLAlchemy
+python-dotenv
