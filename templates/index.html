@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload & Display Images</title>
+</head>
+<body>
+    <h2>Stored Images</h2>
+    {% for img in Images %}
+        <div>
+            <p>{{ img.Name }}</p>
+            <img src="/image/{{ img[0] }}" width="200">
+        </div>
+    {% endfor %}
+</body>
+</html>

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Upload & Display Images</title>
+</head>
+<body>
+    <h2>Upload Image</h2>
+    <form method="post" action="/upload" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2>Stored Images</h2>
+    {% for img in Images %}
+        <div>
+            <p>{{ img.Name }}</p>
+            <img src="/image/{{ img.ImgId }}" width="200">
+        </div>
+    {% endfor %}
+</body>
+</html>
