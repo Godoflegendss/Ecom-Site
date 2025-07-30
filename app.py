@@ -1,9 +1,8 @@
-import os
+import os,random
 import pyodbc
 from flask import (Flask, redirect, render_template, request,send_from_directory, url_for,jsonify,session,send_file)
 from dotenv import load_dotenv
 from io import BytesIO
-
 app = Flask(__name__)
 
 
@@ -19,6 +18,15 @@ connection_string = f'Driver={driver};Server={server};Database={database};Uid={u
 
 
 conn = pyodbc.connect(connection_string)
+
+
+
+def generate_otp():
+    return str(random.randint(100000, 999999))
+
+
+    
+
 
 @app.route('/')
 def index():
@@ -65,7 +73,7 @@ def image(image_id):
 
 @app.route('/login')
 def login():
-    return render_template('login.html')
+    return render_template('login.html',account_status="Welcome")
 
 @app.route('/authentication',methods=['POST'])
 def auth():
@@ -80,6 +88,45 @@ def auth():
 @app.route('/signup')
 def signup():
     return render_template('signup.html')   
+
+
+@app.route('/verify',methods=['POST'])
+def verify():
+    email=request.form['email']
+    password=request.form['password']
+    fname=request.form['fname']
+    lname=request.form['lname']
+    number=request.form['number']
+    address=request.form['address']
+    pincode=request.form['pincode']
+    print(email,password,fname,lname,number,address,pincode)
+    result= emailcheck(email)
+    print (result)
+    if result=="TRUE":
+        return render_template('login.html',account_status="Account already exists")
+    else:
+        query="""Insert into [User.Metadata] (email,password,firstname,lastname,mobilenumber,address,pincode) VALUES(?,?,?,?,?,?,?) """
+        conn=pyodbc.connect(connection_string)
+        cursor=conn.cursor()
+        cursor.execute(query,(email,password,fname,lname,number,address,pincode,))
+        conn.commit()
+        conn.close()
+        return render_template('login.html',account_status="Account created successfully")
+
+def emailcheck(email):
+    conn=pyodbc.connect(connection_string)
+    query="""SELECT 
+        CASE 
+            WHEN EXISTS (SELECT 1 FROM [User.Metadata] WHERE email = ?) 
+            THEN 'TRUE' 
+            ELSE 'FALSE' 
+        END AS emailexists;"""
+    cursor=conn.cursor()
+    cursor.execute(query,(email,))
+    result=cursor.fetchone()
+    conn.close()
+    return result.emailexists
+
 
 @app.route('/usercreation', methods=['POST'])
 def usercreation():

@@ -7,7 +7,7 @@
 </head>
 <body>
 
- <form id="signup" action="/verify" method="post" autocomplete="on">
+ <form id="signup" onsubmit="return validatepassword()" action="/verify" method="post" autocomplete="on">
     <label for="email">Email: </label><br>
     <input type="email" id="email" name="email" placeholder="Email" required><br>
     <label for="password">Password: </label><br>
@@ -20,13 +20,17 @@
     <div id="matchmessage"></div>   
     
     <label for="fname">First Name: </label><br>
-    <input type="text" id="fname" name="fname" placeholder="First Name" required><br>
+    <input type="text" id="fname" name="fname" placeholder="First Name" pattern="[A-Za-z]+" required><br>
     <label for="lname">Last Name: </label><br>
-    <input type="text" id="lname" name="lname" placeholder="Last Name" required><br>
+    <input type="text" id="lname" name="lname" placeholder="Last Name" pattern="[A-Za-z]+" required><br>
     <label for="number">Mobile Number: </label><br>
     <input type="tel" id="number" name="number" placeholder="Mobile Number" maxlength="10" minlength="10"><br>
     <label for="address">Address: </label><br>
-    <input type="text" id="address" name="address" placeholder="address"><br><br>
+    <input type="text" id="address" name="address" placeholder="address"><br>
+    <label for="Pin code">Pin Code:</label><br>
+    <input type="tel" id="pincode" name="pincode" placeholder="Pincode" maxlength="6" minlength="6"><br><br>
+
+
     <input type="submit" value="Submit">
  </form>
     <script>
@@ -34,27 +38,33 @@
         const cpassword=document.getElementById("cpassword");
         const strengthmessage=document.getElementById("strengthmessage");
         const matchmessage=document.getElementById("matchmessage");
+        let strong = false;
+        let match = false;
 
         function checkstrength(value){
             const strong=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/;
             if (strong.test(value)){
                 strengthmessage.textContent="Strong password";
                 password.style.borderColor="green";
+                strongcheck= true;
             }
             else{
                 strengthmessage.textContent="Password must be at least 8 characters, include uppercase, lowercase, number, and special character";
                 password.style.borderColor = "red";
+                strongcheck=false;
             }
         }
         function checkmatch(){
             if (cpassword.value === password.value && cpassword.value !== ""){
                 matchmessage.textContent = "Password match";
                 cpassword.style.borderColor="green";
+                matchcheck= true;
 
             }
             else{
                 matchmessage.textContent = "Passwords do not match";
                 cpassword.style.borderColor = "red";
+                matchcheck=false;
             }
         }
         password.addEventListener("input", ()=>{
@@ -63,13 +73,14 @@
         });
         cpassword.addEventListener("input",checkmatch);
 
-        function validatepassword(){
-            return(
-                password.style.borderColor === "green" &&
-                cpassword.style.borderColor === "green"
-            );
+        function validatepassword() {
+            if (strongcheck === true && matchcheck === true) {
+                return true;
+            } else {
+                alert("Fix password strength or match before submitting.");
+                return false; 
+            }
         }
-
 
 
     </script>

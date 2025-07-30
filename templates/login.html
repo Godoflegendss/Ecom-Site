@@ -6,7 +6,11 @@
     <title>Login Page</title>
 </head>
 <body>
+    <div>
+        <h2>{{account_status}}</h2>
+    </div>
     <form id="auth" action="/authentication" method="post">
+        
         <legend>Login Module</legend>
         <label for="email">Email : </label><br><br>
         <input type="text" id="email" name="email" placeholder="Email">
