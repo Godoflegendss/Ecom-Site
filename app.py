@@ -54,15 +54,37 @@ def upload():
 
 @app.route('/image/<int:image_id>')
 def image(image_id):
-    print("Hello")
     conn=pyodbc.connect(connection_string)
     cursor=conn.cursor()
     cursor.execute("SELECT * FROM [Cloths.data] WHERE ImgId = ?", image_id)
     row = cursor.fetchone()
-    print("Hello")
     if row:
         return send_file(BytesIO(row.Imagedata), mimetype=row.Imagetype)
     return "Image not found", 404
+
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+@app.route('/authentication',methods=['POST'])
+def auth():
+    email=request.form.get('email')
+    password=request.form.get('password')
+    if email and password:
+        print(email,password)
+    else:
+        print("Not working")
+    return render_template('index.html')
+
+@app.route('/signup')
+def signup():
+    return render_template('signup.html')   
+
+@app.route('/usercreation', methods=['POST'])
+def usercreation():
+    return render_template('index.html')
+
 
 if __name__=='__main__':
     app.run(debug=True,port=3000)

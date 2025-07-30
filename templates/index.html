@@ -5,7 +5,12 @@
 </head>
 <body>
     <h2>Stored Images</h2>
+    <div>
+           <a href="/login" class="btn"> Login </a><br>
+           <a href="/signup" class="btn"> Signup</a>
+    </div>
     {% for img in Images %}
+        
         <div>
             <p>{{ img.Name }}</p>
             <img src="/image/{{ img[0] }}" width="200">
