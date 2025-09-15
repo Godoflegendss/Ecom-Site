@@ -19,9 +19,18 @@ jobs:
 
    - name: Run tests
      run: pytest tests
- deploy:
+ build:
    runs-on: ubuntu-latest
    needs: test
+   steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Build Image
+        run: docker build -t Ecom
+  
+ deploy:
+   runs-on: ubuntu-latest
+   needs: build
    steps:
      - name: Deploy
        run: echo "Hello World"
