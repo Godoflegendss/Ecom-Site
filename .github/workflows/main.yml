@@ -19,11 +19,10 @@ jobs:
 
    - name: Run tests
      run: pytest
-
  deploy:
    runs-on: self-hosted
    needs: test
    steps:
      - name: Deploy
-     - run: echo "Hello World"
+       run: echo "Hello World"
  
