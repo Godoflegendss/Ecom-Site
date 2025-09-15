@@ -26,7 +26,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Build Image
-        run: docker build -t Ecom .
+        run: docker build -t ecom .
   
  deploy:
    runs-on: ubuntu-latest
