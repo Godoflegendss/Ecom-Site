@@ -1,3 +1,4 @@
 pyodbc
 dotenv
 flask
+pytest
