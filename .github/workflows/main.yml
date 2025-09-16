@@ -36,12 +36,12 @@ jobs:
         run: echo "VERSION=${{github.run_number}}" >> $GITHUB_ENV
       - name: Build Image
         run: | 
-              docker build -t ghcr.io/${{ github.repository }}:${{ env.VERSION }} .
-              docker tag ghcr.io/${{ github.repository }}:${{ env.VERSION }} ghcr.io/${{ github.repository }}:latest
+              docker build -t ghcr.io/godoflegendss:${{ env.VERSION }} .
+              docker tag ghcr.io/godoflegendss:${{ env.VERSION }} ghcr.io/godoflegendss:latest
       - name: Push Docker image
         run: |
-             docker push ghcr.io/${{ github.repository }}:${{ env.VERSION }}
-             docker push ghcr.io/${{ github.repository }}:latest
+             docker push ghcr.io/godoflegendss:${{ env.VERSION }}
+             docker push ghcr.io/godoflegendss:latest
         
   
  deploy:
