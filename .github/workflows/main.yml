@@ -25,8 +25,24 @@ jobs:
    steps:
       - name: Checkout code
         uses: actions/checkout@v4
+      - name: Container Registry Login
+        uses: docker/login-action@2
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Set version
+        id: vars
+        run: echo "VERSION= {{github.run_number}}" >> $GITHUB_ENV
       - name: Build Image
-        run: docker build -t ecom .
+        run: | 
+              docker build -t ghcr.io/${{ github.repository }}:{{ env.VERSION }} .
+              docker tag ghcr.io/${{ github.repository }}:{{ env.VERSION }} ghcr.io/${{ github.repository }}:latest
+      - name: Push Docker image
+        run: |
+             docker push ghcr.io/${{ github.repository }}:{{ env.VERSION }}
+             docker push ghcr.io/${{ github.repository }}:latest
+        
   
  deploy:
    runs-on: ubuntu-latest
