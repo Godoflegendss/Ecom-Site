@@ -26,7 +26,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
       - name: Container Registry Login
-        uses: docker/login-action@2
+        uses: docker/login-action@3
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
